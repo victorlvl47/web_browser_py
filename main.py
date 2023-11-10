@@ -1,8 +1,20 @@
 import socket
+from urllib.parse import urlparse
+
+# url
+url = input("Enter URL: ")
+if not url:
+    url = "http://data.pr4e.org/romeo.txt"
+
+
+# get domain
+parsed_url = urlparse(url)
+domain = parsed_url.netloc
+
 
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-mysock.connect(('data.pr4e.org', 80))
-cmd = 'GET http://data.pr4e.org/romeo.txt HTTP/1.0\r\n\r\n'.encode()
+mysock.connect((domain, 80))
+cmd = f'GET {url} HTTP/1.0\r\n\r\n'.encode()
 mysock.send(cmd)
 
 while True:
